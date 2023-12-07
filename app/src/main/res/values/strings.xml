@@ -2,6 +2,5 @@
     <string name="app_name">AndroidAPPCoffee</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="buttonStartOrdering">start order</string>
-    <string name="about_us">about us</string>
+    <string name="about_us">The Quality Coffee offers a sanctuary for coffee lovers.  Join us for a taste of D.C</string>
 </resources>
