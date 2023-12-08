@@ -5,29 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.RadioGroup
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Order.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Order : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var coffeeTypeRadioGroup: RadioGroup
+    private lateinit var coffeeSizeRadioGroup: RadioGroup
+    private lateinit var continueButton: Button
+    private lateinit var extrasCheckboxes: List<CheckBox>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,23 +24,54 @@ class Order : Fragment() {
         return inflater.inflate(R.layout.fragment_order, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Order.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Order().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initialize views
+        coffeeTypeRadioGroup = view.findViewById(R.id.coffeeTypeRadioGroup)
+        coffeeSizeRadioGroup = view.findViewById(R.id.coffeeSizeRadioGroup)
+        continueButton = view.findViewById(R.id.continueButton)
+
+        // List of all checkboxes for extras
+        extrasCheckboxes = listOf(
+            view.findViewById(R.id.checkbox_extra_shot),
+            view.findViewById(R.id.checkbox_sugar),
+            view.findViewById(R.id.checkbox_cream),
+            view.findViewById(R.id.checkbox_whole_milk),
+            view.findViewById(R.id.checkbox_two_percent_milk),
+            view.findViewById(R.id.checkbox_non_fat_milk),
+            view.findViewById(R.id.checkbox_almond_milk)
+            // ... Add any other CheckBoxes here
+        )
+
+        // Set up the listeners for the coffee type selection
+        coffeeTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            // Show the coffee size selection when a coffee type is selected
+            coffeeSizeRadioGroup.visibility = if (checkedId != -1) View.VISIBLE else View.GONE
+        }
+
+        // Set up the listeners for the coffee size selection
+        coffeeSizeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            // Show the extras when a coffee size is selected
+            val showExtras = checkedId != -1
+            extrasCheckboxes.forEach { checkbox ->
+                checkbox.visibility = if (showExtras) View.VISIBLE else View.GONE
             }
+            // Enable the continue button if a coffee size is selected and at least one extra is checked
+            continueButton.isEnabled = showExtras && extrasCheckboxes.any { it.isChecked }
+        }
+
+        // Enable continue button if any checkbox is checked
+        extrasCheckboxes.forEach { checkbox ->
+            checkbox.setOnCheckedChangeListener { _, _ ->
+                continueButton.isEnabled = extrasCheckboxes.any { it.isChecked }
+            }
+        }
+
+        // Listener for the Continue button
+        continueButton.setOnClickListener {
+            // Navigate to the next fragment (e.g., PaymentFragment) or perform an action
+            (activity as? MainActivity)?.replaceFragment(payment())
+        }
     }
 }
