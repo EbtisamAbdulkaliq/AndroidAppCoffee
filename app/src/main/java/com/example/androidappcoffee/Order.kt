@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.RadioGroup
-
+import com.example.androidappcoffee.MainActivity
 
 class Order : Fragment() {
-    private lateinit var coffeeTypeRadioGroup: RadioGroup
+//    private lateinit var coffeeTypeRadioGroup: RadioGroup
     private lateinit var coffeeSizeRadioGroup: RadioGroup
     private lateinit var continueButton: Button
     private lateinit var extrasCheckboxes: List<CheckBox>
@@ -28,11 +28,13 @@ class Order : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize views
-        coffeeTypeRadioGroup = view.findViewById(R.id.coffeeTypeRadioGroup)
+//     coffeeTypeRadioGroup = view.findViewById(R.id.coffeeTypeRadioGroup)
+
+
         coffeeSizeRadioGroup = view.findViewById(R.id.coffeeSizeRadioGroup)
         continueButton = view.findViewById(R.id.continueButton)
 
-        // List of all checkboxes for extras
+        // checkboxes for extras
         extrasCheckboxes = listOf(
             view.findViewById(R.id.checkbox_extra_shot),
             view.findViewById(R.id.checkbox_sugar),
@@ -41,14 +43,14 @@ class Order : Fragment() {
             view.findViewById(R.id.checkbox_two_percent_milk),
             view.findViewById(R.id.checkbox_non_fat_milk),
             view.findViewById(R.id.checkbox_almond_milk)
-            // ... Add any other CheckBoxes here
+
         )
 
         // Set up the listeners for the coffee type selection
-        coffeeTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            // Show the coffee size selection when a coffee type is selected
-            coffeeSizeRadioGroup.visibility = if (checkedId != -1) View.VISIBLE else View.GONE
-        }
+//        coffeeTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+//            // Show the coffee size selection when a coffee type is selected
+//            coffeeSizeRadioGroup.visibility = if (checkedId != -1) View.VISIBLE else View.GONE
+//        }
 
         // Set up the listeners for the coffee size selection
         coffeeSizeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -57,7 +59,6 @@ class Order : Fragment() {
             extrasCheckboxes.forEach { checkbox ->
                 checkbox.visibility = if (showExtras) View.VISIBLE else View.GONE
             }
-            // Enable the continue button if a coffee size is selected and at least one extra is checked
             continueButton.isEnabled = showExtras && extrasCheckboxes.any { it.isChecked }
         }
 
