@@ -5,4 +5,7 @@
     <string name="about_us">The Quality Coffee offers a sanctuary for coffee lovers.  Join us for a taste of D.C</string>
     <string name="select_coffee_size">Size</string>
     <string name="select_extras">select extra\n</string>
+    <string name="place_order">place your order</string>
+    <string name="pickup_time_label">pick up time</string>
+    <string name="payment_label">payment</string>
 </resources>
